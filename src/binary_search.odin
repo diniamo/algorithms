@@ -23,6 +23,7 @@ binary_search :: proc(array: []$T, element: T) -> int where intrinsics.type_is_o
 	return -1
 }
 
+@(private)
 main :: proc() {
 	array := [?]int{1, 3, 5, 7, 9}
 
