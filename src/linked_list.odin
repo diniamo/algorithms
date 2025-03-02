@@ -83,20 +83,18 @@ pop_back :: proc(list: ^List($T)) -> (ret: T) {
 }
 
 // O(1)
-remove :: proc(list: ^List($T), element: ^Element(T)) -> T {
-	data := element.data
-
-	next := element.next
-	prev := element.prev
+remove :: proc(list: ^List($T), using element: ^Element(T)) -> T {
+	removed_data := data
 
 	if next != nil do next.prev = prev
+	else           do list.tail = prev
+	
 	if prev != nil do prev.next = next
-	if list.head == element do list.head = element.next
-	if list.tail == element do list.tail = element.prev
+	else           do list.head = next
 
 	free(element)
 
-	return data
+	return removed_data
 }
 
 // O(1)
