@@ -3,6 +3,7 @@ package binary_search
 import "base:intrinsics"
 import "core:fmt"
 
+// O(log n)
 binary_search :: proc(array: []$T, element: T) -> int where intrinsics.type_is_ordered(T) {
 	low := 0
 	high := len(array) - 1

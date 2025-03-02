@@ -19,10 +19,12 @@ Iterator :: struct($T: typeid) {
 	current: ^Element(T)
 }
 
+// O(1)
 is_empty :: proc(list: ^List($T)) -> bool {
 	return list.head == nil
 }
 
+// O(1)
 push_front :: proc(list: ^List($T), data: T) {
 	element := new(Element(T))
 	element.data = data
@@ -37,6 +39,7 @@ push_front :: proc(list: ^List($T), data: T) {
 	}
 }
 
+// O(1)
 push_back :: proc(list: ^List($T), data: T) {
 	element := new(Element(T))
 	element.data = data
@@ -51,6 +54,7 @@ push_back :: proc(list: ^List($T), data: T) {
 	}
 }
 
+// O(1)
 pop_front :: proc(list: ^List($T)) -> (ret: T) {
 	if list.head == nil do return ret
 	
@@ -64,6 +68,7 @@ pop_front :: proc(list: ^List($T)) -> (ret: T) {
 	return data
 }
 
+// O(1)
 pop_back :: proc(list: ^List($T)) -> (ret: T) {
 	if list.tail == nil do return ret
 	
@@ -77,6 +82,7 @@ pop_back :: proc(list: ^List($T)) -> (ret: T) {
 	return data
 }
 
+// O(1)
 remove :: proc(list: ^List($T), element: ^Element(T)) -> T {
 	data := element.data
 
@@ -93,6 +99,7 @@ remove :: proc(list: ^List($T), element: ^Element(T)) -> T {
 	return data
 }
 
+// O(1)
 iterate_next :: proc(it: ^Iterator($T)) -> (ret: T, ok: bool) {
 	if it.current != nil {
 		ret = it.current.data
@@ -104,6 +111,7 @@ iterate_next :: proc(it: ^Iterator($T)) -> (ret: T, ok: bool) {
 	return
 }
 
+// O(1)
 iterate_prev :: proc(it: ^Iterator($T)) -> (ret: T, ok: bool) {
 	if it.current != nil {
 		ret = it.current.data
