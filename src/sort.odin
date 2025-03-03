@@ -5,28 +5,23 @@ import "core:fmt"
 import "core:slice"
 
 // O(n^2)
-selection_sort :: proc(array: []$T) where intrinsics.type_is_numeric(T) {
+selection_sort :: proc(array: []$T) where intrinsics.type_is_ordered(T) {
 	count := len(array)
-	if count < 2 do return
-
-	original := slice.clone(array)
-	used := make([]bool, count, context.temp_allocator)
-
-	min := max(T)
-	min_index: int
-
-	for i in 0..<count {
-		for e, j in original {
-			if e < min && !used[j] {
-				min = e
-				min_index = j
+	
+	for start_index in 0..<count {
+		min := array[start_index]
+		min_index := start_index
+		
+		for i in (start_index + 1)..<count {
+			element := array[i]
+			
+			if element < min {
+				min = element
+				min_index = i
 			}
 		}
 
-		array[i] = min
-		used[min_index] = true
-
-		min = max(T)
+		array[start_index], array[min_index] = array[min_index], array[start_index]
 	}
 }
 
