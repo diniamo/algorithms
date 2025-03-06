@@ -2,8 +2,6 @@
 // See core/container/intrusive/list/intrusive_list.odin for something more ergonomic.
 package linked_list
 
-import "core:fmt"
-
 Element :: struct($T: typeid) {
 	data: T,
 	next: ^Element(T),
@@ -98,9 +96,9 @@ remove :: proc(list: ^List($T), using element: ^Element(T)) -> T {
 }
 
 // O(1)
-iterate_next :: proc(it: ^Iterator($T)) -> (ret: T, ok: bool) {
+iterate_next :: proc(it: ^Iterator($T)) -> (ret: ^T, ok: bool) {
 	if it.current != nil {
-		ret = it.current.data
+		ret = &it.current.data
 		ok = true
 		
 		it.current = it.current.next
@@ -110,9 +108,9 @@ iterate_next :: proc(it: ^Iterator($T)) -> (ret: T, ok: bool) {
 }
 
 // O(1)
-iterate_prev :: proc(it: ^Iterator($T)) -> (ret: T, ok: bool) {
+iterate_prev :: proc(it: ^Iterator($T)) -> (ret: ^T, ok: bool) {
 	if it.current != nil {
-		ret = it.current.data
+		ret = &it.current.data
 		ok = true
 		
 		it.current = it.current.prev
@@ -121,36 +119,9 @@ iterate_prev :: proc(it: ^Iterator($T)) -> (ret: T, ok: bool) {
 	return
 }
 
-@(private)
-main :: proc() {
-	list := List(string){}
-
-	fmt.printfln("is_empty before: %t", is_empty(&list))
-
-	push_back(&list, "two")
-	push_front(&list, "one")
-	push_back(&list, "four")
-	fmt.printfln("Popped wrong number: %s", pop_back(&list))
-	push_back(&list, "five")
-	fmt.printfln("Removed wrong number: %s", remove(&list, list.tail))
-	push_back(&list, "three")
-	push_front(&list, "zero")
-	fmt.printfln("Oops! We don't need zero, popped: %s", pop_front(&list))
-	
-	fmt.printfln("is_empty after: %t", is_empty(&list))
-
-	fmt.println()
-
-	head_it := Iterator(string){ current = list.head }
-	for element in iterate_next(&head_it) {
-		fmt.printfln("%s", element)
-	}
-
-	fmt.println()
-
-	tail_it := Iterator(string){ current = list.tail }
-	for element in iterate_prev(&tail_it) {
-		fmt.printfln("%s", element)
+// O(n)
+delete_list :: proc(list: ^List($T)) {
+	for element := list.head; element != nil; element = element.next {
+		free(element)
 	}
 }
-

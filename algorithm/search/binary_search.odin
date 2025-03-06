@@ -1,4 +1,4 @@
-package binary_search
+package search
 
 import "base:intrinsics"
 import "core:fmt"
@@ -22,12 +22,4 @@ binary_search :: proc(array: []$T, element: T) -> int where intrinsics.type_is_o
 	}
 
 	return -1
-}
-
-@(private)
-main :: proc() {
-	array := [?]int{1, 3, 5, 7, 9}
-
-	fmt.printfln("3 -> %d", binary_search(array[:], 3))
-	fmt.printfln("2 -> %d", binary_search(array[:], 2))
 }
