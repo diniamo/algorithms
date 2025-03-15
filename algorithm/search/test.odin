@@ -118,3 +118,29 @@ depth_first_search_test :: proc(t: ^testing.T) {
 	leaf, ok = linked_list.iterate_next(&it)
 	testing.expect(t, !ok)
 }
+
+@(test)
+djikstra_search_test :: proc(t: ^testing.T) {
+	graph := map[string]map[string]uint{
+		"Start" = map[string]uint{
+			"A" = 6,
+			"B" = 2
+		},
+		"A" = map[string]uint{
+			"Finish" = 1
+		},
+		"B" = map[string]uint{
+			"A" = 3,
+			"Finish" = 5
+		},
+		"Finish" = map[string]uint{}
+	}
+	defer {
+		for _, &v in graph do delete(v)
+		delete(graph)
+	}
+
+	steps, cost := djikstra_search(graph, "Start", "Finish")
+	testing.expect_value(t, steps, 3)
+	testing.expect_value(t, cost, 6)
+}
