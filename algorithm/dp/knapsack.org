@@ -1,0 +1,48 @@
+Given a set of items, each with a weight and a value, determine which items to include in the collection so that the total weight is less than or equal to a given limit and the total  value is as large as possible.
+- Wi weight > 0
+- Vi value
+- maximize value
+- weight sum can't be over capacity
+
+Capacity: 4
+Ws: 1,    3,    4
+Vs: 1500, 2000, 4000
+
+Decision: find sum of maximum value with sum of weight <= capacity
+
+Starting with 1st item:
+- Steal -> W = 1, V = 1500
+  - 2nd item
+    - Steal -> W = 4, V = 3500
+    - Don't steal
+      - 3rd item
+- Don't steal
+  - 2nd item
+    - Steal -> W = 3, V = 2000
+    - Don't steal
+      - 3rd item
+
+Starting with ith item:
+- Steal -> W += Wi
+  - i+1th item
+- Don't steal
+  - i+1th item
+
+i: [0, n - 1] where n = len(Ws)
+W: [0, c]
+
+Term i, W requires:
+- steal: i + 1, w + weights[i]
+  - i + 1 before i
+  - big before small
+  - n - 1 before 0
+  
+  - w + weights[i] before w
+  - big before small
+  - c before 0
+- leave: i + 1, w
+  - i + 1 before i
+  - big before small
+  - n - 1 before 0
+
+  - w unchanged
