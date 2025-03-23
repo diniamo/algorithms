@@ -120,7 +120,7 @@ depth_first_search_test :: proc(t: ^testing.T) {
 }
 
 @(test)
-djikstra_search_test :: proc(t: ^testing.T) {
+dijkstra_search_test :: proc(t: ^testing.T) {
 	graph := map[string]map[string]uint{
 		"Start" = map[string]uint{
 			"A" = 6,
@@ -140,7 +140,7 @@ djikstra_search_test :: proc(t: ^testing.T) {
 		delete(graph)
 	}
 
-	steps, cost := djikstra_search(graph, "Start", "Finish")
+	steps, cost := dijkstra_search(graph, "Start", "Finish")
 	testing.expect_value(t, steps, 3)
 	testing.expect_value(t, cost, 6)
 }
